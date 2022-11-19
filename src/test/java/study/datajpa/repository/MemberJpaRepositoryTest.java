@@ -22,7 +22,7 @@ class MemberJpaRepositoryTest {
     MemberJpaRepository memberJpaRepository;
 
     @Test
-    void testMember(){
+    void testMember() {
         Member member = new Member("memberA");
 
         Member saveMember = memberJpaRepository.save(member);
@@ -34,7 +34,7 @@ class MemberJpaRepositoryTest {
     }
 
     @Test
-    void basicCRUD(){
+    void basicCRUD() {
         Member member1 = new Member("member1");
         Member member2 = new Member("member2");
 
@@ -59,5 +59,18 @@ class MemberJpaRepositoryTest {
         long deletedCount = memberJpaRepository.count();
         assertThat(deletedCount).isEqualTo(0);
 
+    }
+
+    @Test
+    void findByUsernameAndAge() {
+        Member member1 = new Member("Kim", 10);
+        Member member2 = new Member("Kim", 15);
+        memberJpaRepository.save(member1);
+        memberJpaRepository.save(member2);
+
+        List<Member> result = memberJpaRepository.findByUsernameAndGraterThan("Kim", 10);
+
+        assertThat(result.get(0).getUsername()).isEqualTo("Kim");
+        assertThat(result.get(0).getAge()).isEqualTo(15);
     }
 }
